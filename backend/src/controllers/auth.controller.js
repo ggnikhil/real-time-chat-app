@@ -106,8 +106,6 @@ export async function verifyOTP(req, res, next) {
 
     try {
         const token = req.cookies.token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const { email } = decoded
         const { otp } = req.body
 
 
@@ -118,17 +116,20 @@ export async function verifyOTP(req, res, next) {
             })
         }
 
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const { email } = decoded
+
         const recordOTP = await otpModel.findOne({ email })
 
         if (!recordOTP) {
-            res.status(404).json({
+            return res.status(404).json({
                 success: false,
                 message: "user not found"
             })
         }
 
         if (recordOTP.expiresAt < Date.now()) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: "OTP is expire"
             })
@@ -145,6 +146,7 @@ export async function verifyOTP(req, res, next) {
         }
 
         await userModel.updateOne({ email }, { isVerified: true })
+        await otpModel.deleteOne({email})
 
 
         res.status(200).json({
@@ -209,8 +211,6 @@ export async function login(req,res,next){
             success:true,
             message:"user login successfully"
         })
-
-        console.log(user)
 
     }catch(err){
         err.status = 500
