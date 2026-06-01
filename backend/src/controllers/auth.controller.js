@@ -135,9 +135,6 @@ export async function verifyOTP(req, res, next) {
             })
         }
 
-        console.log(recordOTP)
-        console.log(otp)
-
         if (recordOTP.otp !== otp) {
             return res.status(400).json({
                 success: false,
@@ -155,6 +152,7 @@ export async function verifyOTP(req, res, next) {
         })
 
     } catch (err) {
+        console.log(err)
         err.status = 500
         next(err)
     }
@@ -194,7 +192,7 @@ export async function login(req,res,next){
 
         const token = jwt.sign(
             {
-                id:user._id,
+                userID:user._id,
                 email:user.email,
                 username:user.username
             },
@@ -213,6 +211,7 @@ export async function login(req,res,next){
         })
 
     }catch(err){
+        console.log(err)
         err.status = 500
         next(err)
     }  

@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 export const messageSchema = new mongoose.Schema({
-    conversationID:{
+    conversationId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"conversation",
         required:[true,"conversationID must be required"]
     },
 
-    senderID:{
+    sender:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"users",
         required:true,
