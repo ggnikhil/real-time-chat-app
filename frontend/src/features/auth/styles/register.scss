@@ -1,0 +1,119 @@
+// register.scss
+.registerPage {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #111b21;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+
+    .whatsappicon {
+        font-size: 100px;
+        color: #00a884;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+            font-size: inherit;
+        }
+    }
+
+    .registertext {
+        font-size: 15px;
+        font-weight: 700;
+        color: #e9edef;
+        margin: 32px;
+    }
+
+    div {
+        width: 100%;
+        max-width: 380px;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+
+            > div {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+
+                label {
+                    font-size: 13px;
+                    color: #8696a0;
+                }
+
+                input {
+                    height: 44px;
+                    background-color: #2a3942;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 0 14px;
+                    color: #e9edef;
+                    font-size: 14px;
+
+                    &::placeholder {
+                        color: #667781;
+                    }
+
+                    &:focus {
+                        outline: 2px solid #00a884;
+                    }
+                }
+            }
+
+            button {
+                height: 46px;
+                background-color: #00a884;
+                color: #ffffff;
+                border: none;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-top: 8px;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: #06916f;
+                }
+
+                &:active {
+                    transform: scale(0.98);
+                }
+            }
+
+            .registerPtag {
+                text-align: center;
+                font-size: 13px;
+                color: #8696a0;
+                margin: 4px 0 0;
+
+                a {
+                    color: #53bdeb;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        .policyParabox {
+            margin-top: 32px;
+
+            .policyPara {
+                font-size: 12px;
+                line-height: 18px;
+                color: #667781;
+                text-align: center;
+            }
+        }
+    }
+}

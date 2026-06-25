@@ -1,0 +1,85 @@
+// verifyOtp.scss
+.verifyOtpPage {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #111b21;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+
+    .whatsappicon {
+        font-size: 80px;
+        color: #00a884;
+        margin-bottom: 8px;
+
+        i {
+            font-size: inherit;
+        }
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #00a884;
+        margin: 0 0 24px;
+    }
+
+    .otpInfo {
+        font-size: 14px;
+        color: #e9edef;
+        margin: 0 0 24px;
+        max-width: 300px;
+    }
+
+    .otpBoxes {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        input {
+            width: 44px;
+            height: 50px;
+            background-color: #2a3942;
+            border: 1px solid #3b4a54;
+            border-radius: 8px;
+            color: #e9edef;
+            font-size: 20px;
+            text-align: center;
+
+            &:focus {
+                outline: none;
+                border-color: #00a884;
+            }
+        }
+    }
+
+    .verifyBtn {
+        width: 220px;
+        height: 46px;
+        background-color: #00a884;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 16px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: #06916f;
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .timer {
+        font-size: 13px;
+        color: #8696a0;
+    }
+}
