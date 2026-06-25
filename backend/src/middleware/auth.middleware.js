@@ -34,5 +34,4 @@ export async function authMIddleware(req,res,next){
         next(err)
     }
 
-
 }

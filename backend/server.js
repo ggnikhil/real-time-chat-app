@@ -6,7 +6,7 @@ import { Server } from "socket.io"
 
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, { /* options */ });
+const io = new Server(httpServer);
 
 connectedToDB()
 

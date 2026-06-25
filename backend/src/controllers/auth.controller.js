@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js"
 import { sendEmail } from "../services/email.service.js"
 import { otpModel } from "../models/otp.model.js"
+import { redis } from "../config/cache.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
@@ -97,7 +98,7 @@ export async function register(req, res, next) {
             }
         })
     } catch (err) {
-        err.status = 500 
+        err.status = 500
         next(err)
     }
 }
@@ -109,10 +110,10 @@ export async function verifyOTP(req, res, next) {
         const { otp } = req.body
 
 
-        if(!token){
+        if (!token) {
             return res.status(401).json({
-                success:false,
-                message:"token not found"
+                success: false,
+                message: "token not found"
             })
         }
 
@@ -143,7 +144,7 @@ export async function verifyOTP(req, res, next) {
         }
 
         await userModel.updateOne({ email }, { isVerified: true })
-        await otpModel.deleteOne({email})
+        await otpModel.deleteOne({ email })
 
 
         res.status(200).json({
@@ -159,60 +160,79 @@ export async function verifyOTP(req, res, next) {
 
 }
 
-export async function login(req,res,next){
+export async function login(req, res, next) {
 
-    try{
+    try {
 
-        const {email,password} = req.body
+        const { email, password } = req.body
 
-        const user = await userModel.findOne({email}).select("+password")
+        const user = await userModel.findOne({ email }).select("+password")
 
-        if(!user){
+        if (!user) {
             return res.status(404).json({
-                success:false,
-                message:"Invalid credentials"
+                success: false,
+                message: "Invalid credentials"
             })
         }
 
-        if(user.isVerified !== true){
+        if (user.isVerified !== true) {
             return res.status(400).json({
                 success: false,
-                message:"Please verify your email address"
+                message: "Please verify your email address"
             })
         }
 
-        const checkPassword = await bcrypt.compare(password,user.password)
+        const checkPassword = await bcrypt.compare(password, user.password)
 
-        if(!checkPassword){
+        if (!checkPassword) {
             return res.status(400).json({
-                success:false,
-                message:"Invalid password"
+                success: false,
+                message: "Invalid password"
             })
         }
 
         const token = jwt.sign(
             {
-                userID:user._id,
-                email:user.email,
-                username:user.username
+                userID: user._id,
+                email: user.email,
+                username: user.username
             },
             process.env.JWT_SECRET,
             {
-                expiresIn:"7d"
+                expiresIn: "7d"
             }
         )
 
-        res.cookie("token",token)
+        res.cookie("token", token)
 
 
         res.status(200).json({
-            success:true,
-            message:"user login successfully"
+            success: true,
+            message: "user login successfully"
         })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         err.status = 500
         next(err)
-    }  
+    }
+}
+
+export async function logout(req, res) {
+    try {
+        const token = req.cookies.token
+
+        res.clearCookie("token")
+
+        await redis.set(token, Date.now().toString(), "EX", 60 * 60)
+
+        res.status(200).json({
+            message: "user logout successfully"
+        })
+        
+    } catch (err) {
+        err.status = 500
+        next(err)
+    }
+
 }

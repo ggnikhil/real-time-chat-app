@@ -63,3 +63,20 @@ export async function getMessage(req, res, next) {
 
     
 }
+
+export async function getConversation(req,res,next) {
+    try{
+        const userId = req.user
+
+        const conversation = await conversationModel.findOne({
+            participants:userId
+        })
+
+        console.log(conversation)
+    }catch(err){
+        req.status = 500
+        next(err)
+    }
+
+    
+}
