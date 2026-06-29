@@ -7,6 +7,11 @@ import Dashboard from "../features/chats/pages/Dashboard";
 
 export const AppRouter = createBrowserRouter([
     {
+        path:"/",
+        element:<h1>welcome to home page</h1>
+
+    },
+    {
         path:"/login",
         element:<Login />
     },

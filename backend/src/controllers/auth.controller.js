@@ -218,7 +218,7 @@ export async function login(req, res, next) {
     }
 }
 
-export async function logout(req, res) {
+export async function logout(req, res,next) {
     try {
         const token = req.cookies.token
 
@@ -235,4 +235,26 @@ export async function logout(req, res) {
         next(err)
     }
 
+}
+
+export async function getMe(req,res,next) {
+    try{
+        const token = req.cookies.token
+
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+
+        res.status(200).json({
+            success:true,
+            message:"user fetch successfully",
+            user:{
+                userID:decoded.userID,
+                email:decoded.email,
+                username:decoded.username
+            }
+        })
+
+    }catch(err){
+        err.status = 500
+        next(err)
+    }   
 }
